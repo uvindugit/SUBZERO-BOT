@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SUBZERO BOT CONNECTED 🚀</title>
+    <!-- Importing a cool font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Body Styling */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Exo 2', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,36 +17,37 @@
             align-items: center;
             height: 100vh;
             background: linear-gradient(90deg, #004e92, #000428);
-            background-size: 400% 400%;
-            animation: gradientAnimation 10s infinite alternate;
             overflow: hidden;
             position: relative;
-        }
-
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        /* Snowflake Styling */
-        .snowflake {
-            position: absolute;
-            top: -10px;
             color: #fff;
-            font-size: 16px;
-            opacity: 0.8;
-            animation: fall 10s linear infinite, sway 2s ease-in-out infinite alternate;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-10px); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100vh); }
+        /* Header Styling */
+        header {
+            position: absolute;
+            top: -100px; /* Start off-screen */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+            animation: slideDown 1.5s ease-out forwards;
         }
 
-        @keyframes sway {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(20px); }
+        @keyframes slideDown {
+            0% { top: -100px; }
+            100% { top: 0; }
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #b3ecff;
+            text-shadow: 0 0 15px #b3ecff, 0 0 30px #80dfff, 0 0 45px #4db8ff;
+            margin: 0;
         }
 
         /* Central Box */
@@ -65,14 +68,15 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Title Styling with Heartbeat Animation */
+        /* Title Styling with Cool Font */
         .title {
+            font-family: 'Orbitron', sans-serif;
             font-size: 48px;
             font-weight: bold;
             text-transform: uppercase;
             color: #b3ecff;
             text-shadow: 0 0 15px #b3ecff, 0 0 30px #80dfff, 0 0 45px #4db8ff;
-            animation: heartbeat 1.5s infinite, glow 3s infinite alternate;
+            animation: heartbeat 1.5s infinite;
         }
 
         @keyframes heartbeat {
@@ -80,11 +84,6 @@
             25% { transform: scale(1.1); }
             50% { transform: scale(0.95); }
             75% { transform: scale(1.05); }
-        }
-
-        @keyframes glow {
-            0% { text-shadow: 0 0 15px #b3ecff; }
-            100% { text-shadow: 0 0 25px #66c2ff, 0 0 50px #e6f7ff; }
         }
 
         /* Running Text */
@@ -130,20 +129,40 @@
             color: #004e92;
             cursor: pointer;
         }
+
+        /* Footer Styling */
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            background: rgba(0, 0, 0, 0.5);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 14px;
+            color: #b3ecff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        footer a {
+            color: #b3ecff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        footer a:hover {
+            color: #80dfff;
+            text-shadow: 0 0 15px #80dfff;
+        }
     </style>
 </head>
 <body>
-    <!-- Snowflakes -->
-    <div class="snowflake" style="left: 10%; animation-delay: 0s;">❄</div>
-    <div class="snowflake" style="left: 20%; animation-delay: 1s;">❅</div>
-    <div class="snowflake" style="left: 30%; animation-delay: 2s;">❆</div>
-    <div class="snowflake" style="left: 40%; animation-delay: 3s;">❄</div>
-    <div class="snowflake" style="left: 50%; animation-delay: 4s;">❅</div>
-    <div class="snowflake" style="left: 60%; animation-delay: 5s;">❆</div>
-    <div class="snowflake" style="left: 70%; animation-delay: 6s;">❄</div>
-    <div class="snowflake" style="left: 80%; animation-delay: 7s;">❅</div>
-    <div class="snowflake" style="left: 90%; animation-delay: 8s;">❆</div>
+    <!-- Header -->
+    <header>
+        <h1>SubZero Status</h1>
+    </header>
 
+    <!-- Main Content -->
     <div class="container">
         <!-- Status Title -->
         <div class="title">SubZero Bot Online</div>
@@ -157,15 +176,15 @@
 
         <!-- Action Button -->
         <a href="https://wa.me/263719647303?text=I+have+Deployed" class="action-btn"><h3 id="version"></h3></a>
-        
-        
-
-    
-        
     </div>
-</body>
-<script>
-        fetch('https://raw.githubusercontent.com/mrfrank-ofc/SUBZERO/master/package.json')
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed with ❤️ by <a href="https://github.com/mrfrank-ofc" target="_blank">Mr Frank</a> | © 2024 - ♾️ SubZero Bot.</p>
+    </footer>
+
+    <script>
+        fetch('https://raw.githubusercontent.com/mrfrank-ofc/SUBZERO-BOT/master/package.json')
             .then(response => response.json())
             .then(data => {
                 const version = data.version;
@@ -176,4 +195,5 @@
                 document.getElementById('version').textContent = 'Version 2.0';
             });
     </script>
+</body>
 </html>
