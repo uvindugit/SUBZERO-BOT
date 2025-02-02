@@ -1,21 +1,11 @@
-/*import mongoose from 'mongoose';
-import { cmd } from '../command.js';
+/*const connectDB = require('../lib/db'); // Import the MongoDB connection
+const { cmd } = require('../command');
+const config = require('../config');
+const BotSettings = require('../models/BotSettings'); // Import the model
 
-// MongoDB connection
-mongoose.connect('mongodb+srv://darexmucheri:cMd7EoTwGglJGXwR@cluster0.uwf6z.mongodb.net/botdb?retryWrites=true&w=majority&appName=Cluster0', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
 
-// Schema for bot settings
-const botSettingsSchema = new mongoose.Schema({
-    userId: String, // User's WhatsApp ID
-    autoBio: { type: Boolean, default: false } // AutoBio setting
-});
-
-// Model for bot settings
-const BotSettings = mongoose.model('BotSettings', botSettingsSchema);
+// Connect to MongoDB
+connectDB();
 
 // Function to update autoBio setting
 async function updateAutoBio(userId, status) {
@@ -34,29 +24,67 @@ async function getAutoBio(userId) {
 
 // Command to toggle autoBio
 cmd({
-    pattern: "autobio",
-    alias: ["bio"],
-    desc: "Toggle autoBio on/off",
-    category: "misc",
+    pattern: 'autobio',
+    alias: ['bio'],
+    react: '📝',
+    desc: 'Toggle autoBio on/off',
+    category: 'misc',
     filename: __filename
-},
-async (conn, mek, m, { from, reply, text, isCreator }) => {
-    if (!isCreator) return reply('This command is only for the bot owner.');
+}, async (conn, mek, m, {
+    from,
+    quoted,
+    body,
+    isCmd,
+    command,
+    args,
+    q,
+    isGroup,
+    sender,
+    senderNumber,
+    botNumber2,
+    botNumber,
+    pushname,
+    isMe,
+    isOwner,
+    groupMetadata,
+    groupName,
+    participants,
+    groupAdmins,
+    isBotAdmins,
+    isAdmins,
+    reply
+}) => {
+    if (!isOwner) return reply('This command is only for the bot owner.');
 
     try {
-        const [command, status] = text.split(' ');
+        const [action, status] = body.split(' ');
 
-        if (!command || !['on', 'off'].includes(status?.toLowerCase())) {
+        if (!action || !['on', 'off'].includes(status?.toLowerCase())) {
             return reply('Usage: `.autobio on` or `.autobio off`');
         }
 
         const newStatus = status.toLowerCase() === 'on';
-        await updateAutoBio(from, newStatus);
+        await updateAutoBio(sender, newStatus);
 
-        return reply(`AutoBio has been turned ${newStatus ? 'on ✅' : 'off ❌'}.`);
+        // Send the status message with an image
+        await conn.sendMessage(from, {
+            image: { url: 'https://i.ibb.co/nzGyYCk/mrfrankofc.jpg' }, // Image URL
+            caption: `AutoBio has been turned ${newStatus ? 'on ✅' : 'off ❌'}.`,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363304325601080@newsletter',
+                    newsletterName: '『 𝐒𝐔𝐁𝐙𝐄𝐑𝐎 𝐌𝐃 』',
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
+
     } catch (error) {
         console.error('Error in autobio command:', error);
-        return reply('An error occurred while processing your request.');
+        reply('An error occurred while processing your request.');
     }
 });
 
@@ -80,19 +108,27 @@ handler.all = async function (m) {
                 }) * 1000;
             }
 
+            // Log the uptime for debugging
+            console.log('Uptime calculated:', _muptime);
+
             // Format the uptime
             let muptime = clockString(_muptime);
 
+            // Log the formatted uptime for debugging
+            console.log('Formatted uptime:', muptime);
+
             // Set the bot's bio
             let bio = `\n⌚ Time Active: ${muptime}\n\n ┃ 🛡️ᑭᖇIᑎᑕᕮ ᗷOT ᗰᗪ🛡️`;
-            await this.updateProfileStatus(bio).catch(_ => _);
+            await this.updateProfileStatus(bio)
+                .then(() => console.log('Bio updated successfully!'))
+                .catch(err => console.error('Error updating bio:', err));
         }
     } catch (error) {
         console.error('Error in bio updater:', error);
     }
 };
 
-export default handler;
+module.exports = handler;
 
 // Function to format uptime
 function clockString(ms) {
