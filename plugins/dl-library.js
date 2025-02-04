@@ -1,3 +1,6 @@
+//Powered By Mr Frank
+
+
 const { Storage } = require('megajs'); // Import the Storage class from megajs
 const { cmd } = require('../command'); // Assuming you have a command handler
 const fs = require('fs'); // For file system operations
@@ -16,8 +19,23 @@ cmd({
 
 async (conn, mek, m, { from, reply, senderNumber }) => {
     try {
-        // Welcome message
-        await reply("Welcome to SubZero Library😃📚!\n\n To proceed, type `.showlibrary`.\n\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ғʀᴀɴᴋ");
+        // Welcome message with image
+        const message = "Welcome to SubZero Library😃📚!\n\nTo proceed, type `.showlibrary`.\n\n> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍʀ ғʀᴀɴᴋ";
+
+        await conn.sendMessage(from, {
+            image: { url: `https://i.ibb.co/7dMwhmHm/mrfrankofc.jpg` }, // Image URL
+            caption: message,
+            contextInfo: {
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363304325601080@newsletter',
+                    newsletterName: '『 𝐒𝐔𝐁𝐙𝐄𝐑𝐎 𝐌𝐃 』',
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
 
     } catch (error) {
         console.error("Error:", error); // Log the error
@@ -37,8 +55,8 @@ cmd({
 
 async (conn, mek, m, { from, reply, senderNumber }) => {
     try {
-        const username = "kebefe9699@rykone.com"; // Your Mega.nz username
-        const password = "books123"; // Your Mega.nz password
+        const username = "kebefe9699@rykone.com"; // dont touch my things lol 
+        const password = "books123"; // Only Mr Frank Can
 
         // Authenticate with Mega.nz using the Storage class
         const storage = await new Storage({
