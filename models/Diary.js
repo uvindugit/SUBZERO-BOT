@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const diarySchema = new mongoose.Schema({
     userId: { type: String, required: true }, // User's WhatsApp ID
     note: { type: String, required: true },   // Diary note
-    timestamp: { type: Date, default: Date.now } // Timestamp of the note
+    timestamp: { type: Date, default: Date.now }, // Timestamp of the note
+    passphrase: { type: String, default: null } // Add passphrase field
 });
 
 // Diary Model
