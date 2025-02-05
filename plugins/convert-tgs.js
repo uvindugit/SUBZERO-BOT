@@ -45,13 +45,32 @@ cmd({
 
     let type = stickers.data.result.is_animated ? 'animated sticker' : 'not animated sticker';
 
-    let message = `*Telegram Sticker Pack*\n\n` +
-                  `*Name:* ${stickers.data.result.name}\n` +
+    let message = `*🧩sᴜʙᴢᴇʀᴏ ᴍᴅ ᴛᴇʟᴇɢʀᴀᴍ sᴛɪᴄᴋᴇʀs🧩*\n\n` +
+                  `*Producer:* ${stickers.data.result.name}\n` +
                   `*Type:* ${type}\n` +
                   `*Length:* ${stickers.data.result.stickers.length}\n\n` +
-                  `Downloading...`;
+                  `> sᴜʙᴢᴇʀᴏ sᴇɴᴅɪɴɢ sᴛɪᴄᴋᴇʀs...`;
 
-    await reply(message);
+   // await reply(message);
+await conn.sendMessage(
+            from,
+            {
+                image: { url: `https://i.postimg.cc/yNf7rQFw/prn.jpg` },
+                caption: message,
+                contextInfo: {
+                    mentionedJid: [m.sender],
+                    forwardingScore: 999,
+                    isForwarded: true,
+                    forwardedNewsletterMessageInfo: {
+                        newsletterJid: '120363304325601080@newsletter',
+                        newsletterName: '❄️『 𝐒𝐔𝐁𝐙𝐄𝐑𝐎 𝐌𝐃 』❄️ ',
+                        serverMessageId: 143
+                    }
+                }
+            },
+            { quoted: mek }
+        );
+    
 
     // Loop through each sticker in the pack
     for (let i = 0; i < stickers.data.result.stickers.length; i++) {
