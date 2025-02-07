@@ -26,7 +26,7 @@ cmd({
 
     // Check if a Telegram sticker link is provided
     if (!args[0]) {
-      reply('Please provide a Telegram sticker pack link.');
+      reply('Please provide a Telegram sticker pack link.\n\n Example `.tgs` https://t.me/addstickers/JodelStoriesHub ');
       return;
     }
 
@@ -45,7 +45,7 @@ cmd({
 
     let type = stickers.data.result.is_animated ? 'animated sticker' : 'not animated sticker';
 
-    let message = `*🧩sᴜʙᴢᴇʀᴏ ᴍᴅ ᴛᴇʟᴇɢʀᴀᴍ sᴛɪᴄᴋᴇʀs🧩*\n\n` +
+    let message = `*🧩sᴜʙᴢᴇʀᴏ ᴛᴇʟᴇɢʀᴀᴍ sᴛɪᴄᴋᴇʀs🧩*\n\n` +
                   `*Producer:* ${stickers.data.result.name}\n` +
                   `*Type:* ${type}\n` +
                   `*Length:* ${stickers.data.result.stickers.length}\n\n` +
@@ -55,7 +55,7 @@ cmd({
 await conn.sendMessage(
             from,
             {
-                image: { url: `https://i.postimg.cc/yNf7rQFw/prn.jpg` },
+                image: { url: `https://i.ibb.co/dwmbSTkL/mrfrankofc.jpg` },
                 caption: message,
                 contextInfo: {
                     mentionedJid: [m.sender],
@@ -84,8 +84,8 @@ await conn.sendMessage(
 
       // Create a WhatsApp sticker
       const sticker = new Sticker(buffer.data, {
-        pack: 'SUBZERO-MD',
-        author: 'MR FRANK',
+        pack: '❄️ SUBZERO-MD ❄️',
+        author: 'ɱɾ ƒɾαɳҡ σƒc',
         type: StickerTypes.FULL,
         categories: ['🤩', '🎉'],
         id: '12345',

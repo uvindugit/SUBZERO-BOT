@@ -1,44 +1,106 @@
-const { cmd } = require('../command');
+//  SUBZERO MD PROPERTY
+// MADE BY MR FRANK
+// REMOVE THIS IF YOU ARE GAY
+
 const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+const ytSearch = require('yt-search');
+const config = require('../config');
+const { cmd, commands } = require('../command');
+
+
+//  SUBZERO MD PROPERTY
+// MADE BY MR FRANK
+// REMOVE THIS IF YOU ARE GAY
+
 
 cmd({
-  pattern: "newvideo",
-  desc: "Download a video using the provided API",
-  category: "media",
+  pattern: 'videonew',
+  alias: ['videodoc', 'film', 'mp4'],
+  react: '🎥',
+  desc: 'Search and download videos from YouTube',
+  category: 'Search',
   filename: __filename
-}, async (conn, mek, m, { from, reply, quoted }) => {
+}, async (conn, mek, m, { from, reply, args, sender }) => {
   try {
-    // Check if the message contains a URL
-    const url = m.body.split(' ')[1] || (quoted ? quoted.text : '');
+    // Check if a query is provided
+    if (!args[0]) {
+      return reply('Please provide a video name.');
+    }
 
-    if (!url) return reply('Please provide a valid URL.');
+    const query = args.join(' ');
 
-    // Call the API to download the video
-    const apiUrl = `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(url)}`;
-    const response = await axios.get(apiUrl, { responseType: 'stream' });
+    // Perform a YouTube search based on the query
+    const searchResults = await ytSearch(query);
 
-    // Save the video to a temporary file
-    const tempFilePath = path.join(__dirname, '../temp/video.mp4');
-    const writer = fs.createWriteStream(tempFilePath);
+    // Check if any videos were found
+    if (!searchResults || !searchResults.videos.length) {
+      return reply('No video found for the specified query.');
+    }
 
-    response.data.pipe(writer);
+    const firstVideo = searchResults.videos[0];
+    const videoUrl = firstVideo.url;
 
-    writer.on('finish', async () => {
-      // Send the video to the user
-      await conn.sendMessage(from, { video: { url: tempFilePath }, caption: 'Here is your video!' }, { quoted: m });
+    // Function to get download data from APIs
+    const getDownloadData = async (url) => {
+      try {
+        const response = await axios.get(url);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+        return { success: false };
+      }
+    };
 
-      // Delete the temporary file
-      fs.unlinkSync(tempFilePath);
-    });
+    // List of APIs to try
+    const apis = [
+      `https://api-rin-tohsaka.vercel.app/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://api.davidcyriltech.my.id/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://www.dark-yasiya-api.site/download/ytmp4?url=${encodeURIComponent(videoUrl)}`,
+      `https://api.giftedtech.web.id/api/download/dlmp4?url=${encodeURIComponent(videoUrl)}&apikey=gifted-md`,
+      `https://api.dreaded.site/api/ytdl/video?url=${encodeURIComponent(videoUrl)}`
+    ];
 
-    writer.on('error', (err) => {
-      console.error('Error writing video file:', err);
-      reply('An error occurred while saving the video.');
-    });
-  } catch (err) {
-    console.error('Video download error:', err);
-    reply('An error occurred while downloading the video.');
+    let downloadData;
+    for (const api of apis) {
+      downloadData = await getDownloadData(api);
+      if (downloadData && downloadData.success) break;
+    }
+
+    // Check if a valid download URL was found
+    if (!downloadData || !downloadData.success || !downloadData.result?.download_url) {
+      return reply('Failed to retrieve download URL from all sources. Please try again later.');
+    }
+
+    const downloadUrl = downloadData.result.download_url;
+    const videoDetails = downloadData.result;
+
+    // Validate the download URL
+    if (!downloadUrl || typeof downloadUrl !== 'string' || !downloadUrl.startsWith('http')) {
+      return reply('Invalid download URL. Please try again.');
+    }
+
+    // Prepare the message payload with external ad details
+    const messagePayload = {
+      video: { url: downloadUrl },
+      mimetype: 'video/mp4',
+      caption: `*${videoDetails.title || 'Downloaded by SUBZERO-MD'}*`,
+      contextInfo: {
+        externalAdReply: {
+          title: videoDetails.title || 'SUBZERO-MD Video Download',
+          body: 'Powered by SUBZERO-MD',
+          mediaType: 1,
+          sourceUrl: 'https://github.com/MrFrank-ofc/SUBZERO-BOT', // Replace with your desired link
+          thumbnailUrl: firstVideo.thumbnail || 'https://i.imgur.com/v9gJCSD.jpeg',
+          renderLargerThumbnail: true,
+        },
+      },
+    };
+
+    // Send the video
+    await conn.sendMessage(from, messagePayload, { quoted: mek });
+
+  } catch (error) {
+    console.error('Error during download process:', error);
+    reply(`Download failed due to an error: ${error.message || error}`);
   }
 });
