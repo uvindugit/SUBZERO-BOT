@@ -4,6 +4,9 @@
 
 const axios = require('axios');
 const config = require('../config');
+
+
+
 const { cmd } = require('../command');
 const { fetchJson } = require('../lib/functions');
 
@@ -160,6 +163,24 @@ cmd({
     reply('Something went wrong. Unable to fetch La Liga standings.');
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // DADDY FRANK OFFICIAL
 
