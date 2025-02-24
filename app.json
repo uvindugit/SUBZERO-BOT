@@ -58,8 +58,8 @@
     }, 
 
 
-    "AUTO_STATUS_SEEN": {
-      "description": "Make it true for automatic status seen.",
+    "AUTO_STATUS_REACT": {
+      "description": "Make it true for automatic status react & seen.",
       "required": true,
       "value": "true"
     }, 
@@ -86,7 +86,7 @@
     "OWNER_NUMBER": {
       "description": "put the owner number for bot.",
       "required": false,
-      "value": "263719XXXX"
+      "value": "263719646303"
 
     }, 
 

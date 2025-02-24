@@ -1,6 +1,6 @@
 {
   "name": "SUBZERO-MD",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "THE BEST BOT IN THE UNIVERSE",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "util": "^0.12.4",
     "express": "latest",
     "axios": "^1.2.5",
+    "buffer": "^6.0.3",
     "crypto-digest-sync": "^1.0.0",
     "crypto-js": "latest",
     "file_size_url": "1.0.4",
@@ -53,6 +54,17 @@
     "acrcloud": "^1.4.0",
     "mongoose": "^8.0.0",
     "node-cache" :"^5.1.1",
-    "dotenv": "^16.0.0"   
+    "wikipedia": "^2.1.2",
+    "javascript-obfuscator": "^4.0.0",
+    "pdf-lib": "^1.17.1",
+    "telegraph": "^0.8.22",
+    "qrcode-reader": "^1.0.4",
+    "jimp": "^0.16.13",
+    "imgur": "^2.1.0",
+    "lyrics-finder": "^1.0.5",
+    "songlyrics": "^2.4.8",
+    "pdfkit": "^0.14.0",
+    "dotenv": "^16.0.0"
+    
   }
 }

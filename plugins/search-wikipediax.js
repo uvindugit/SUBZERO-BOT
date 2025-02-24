@@ -213,6 +213,51 @@ Support      : wa.me/18062212660
 
 const config = require('../config');
 const { cmd, commands } = require('../command');
+
+const axios = require("axios");
+
+cmd({
+  pattern: "wiki",
+  alias: ["wikipedia", "search"],
+  desc: "Search for information on Wikipedia.",
+  category: "utility",
+  use: ".wiki <search_query>",
+  filename: __filename,
+}, async (conn, mek, msg, { from, args, reply }) => {
+  try {
+    const query = args.join(" ");
+    if (!query) {
+      return reply("❌ Please provide a search query. Example: `.wiki Albert Einstein`");
+    }
+
+    // Fetch Wikipedia summary
+    const response = await axios.get(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`
+    );
+
+    const { title, extract, content_urls } = response.data;
+
+    if (!extract) {
+      return reply("❌ No results found. Please try a different query.");
+    }
+
+    // Format the Wikipedia summary
+    const wikiMessage = `
+📚 *Wikipedia Summary*: ${title}
+
+${extract}
+
+🔗 *Read More*: ${content_urls.desktop.page}
+    `;
+
+    reply(wikiMessage);
+  } catch (error) {
+    console.error("Error fetching Wikipedia data:", error);
+    reply("❌ Unable to fetch Wikipedia data. Please try again later.");
+  }
+});
+
+/*
 const wiki = require('wikipedia');
 
 // Define the Wikipedia search command
@@ -254,3 +299,4 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         reply(`Error: ${e.message}`);
     }
 });
+*/

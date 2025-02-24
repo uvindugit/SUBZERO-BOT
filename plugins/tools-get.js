@@ -20,7 +20,9 @@ async (conn, mek, m, { from, quoted, body, args, reply }) => {
         const content = JSON.stringify(data, null, 2);
 
         await conn.sendMessage(from, {
-            text: `🌐 *Fetched Data*:\n\`\`\`${content.slice(0, 2048)}\`\`\`\n\n> sᴜʙᴢᴇʀᴏ ᴍᴅ ʙᴏᴛ`,
+            text: `🌐 *Fetched Data*:\n\`\`\`${content}\`\`\`\n\n> sᴜʙᴢᴇʀᴏ ᴍᴅ ʙᴏᴛ`,
+         // text: `🌐 *Fetched Data*:\n\`\`\`${content.slice(0, 2048)}\`\`\`\n\n> sᴜʙᴢᴇʀᴏ ᴍᴅ ʙᴏᴛ`,
+              
             contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
