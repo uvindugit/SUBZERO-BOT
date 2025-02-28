@@ -1,4 +1,4 @@
-const config = require('../config');
+/* const config = require('../config');
 const { cmd, commands } = require('../command');
 const axios = require('axios');
 
@@ -109,3 +109,4 @@ cmd({
     await reply('❌ Unable to detect objects. Please try again later.');
   }
 });
+*/
